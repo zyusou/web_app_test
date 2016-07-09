@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!-- Form
+    ================================================== -->
+    <div class="row">
+        <div class="form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead">
+                            {% if name %}
+                                こんにちは {{ name }} さん
+                            {% else %}
+                                {{ message }}
+                            {% endif %}
+                        </p>
+                        <form action="/post" method="post" class="form-inline">
+                            <label for="name">アーティスト名</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                            <label for="alieses_name">アーティストの別名</label>
+                            <input type="text" class="form-control" id="aliases_name" name="aliases_name"
+                                   placeholder="AliasesName">
+                            <label for="name">タグ</label>
+                            <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag">
+                            <div class="form-group">
+                                <label for="tag">順序</label>
+                                <select class="form-control" id="order" name="order">
+                                    <option>昇順</option>
+                                    <option>降順</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="number">件数</label>
+                                <select class="form-control" id="number" name="number">
+                                    <option>10件</option>
+                                    <option>50件</option>
+                                    <option>100件</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-default">送信する</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead class="thead-default">
+            <tr>
+                <th>#</th>
+                <th>アーティスト名</th>
+                <th>別名</th>
+                <th>タグ</th>
+                <th>レーティング</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for artist in result %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ artist.get("name", "---") }}</td>
+                    <td>{% for alias_dict in artist.get("aliases", {}) %}
+                        {{ alias_dict.get("name", "---") }}
+                    {% endfor %}</td>
+                    <td>{% for tag in artist.get("tags", {}) %}
+                        {{ tag.get("value", "---") }}
+                    {% endfor %}</td>
+                    <td>{{ artist.get("rating", {}).get("value", "---") }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
