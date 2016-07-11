@@ -8,11 +8,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="lead">
-                            {% if name %}
-                                こんにちは {{ name }} さん
-                            {% else %}
-                                {{ message }}
-                            {% endif %}
+                            {{ message }}
                         </p>
                         <form action="/post" method="post" class="form-inline">
                             <label for="name">アーティスト名</label>
